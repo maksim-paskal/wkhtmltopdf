@@ -1,0 +1,34 @@
+replicas: 1
+
+image: paskalmaksim/wkhtmltopdf:v0.0.1
+imagePullPolicy: IfNotPresent
+
+runAsUser: 1000
+
+podLabels: {}
+podAnnotations: {}
+
+tolerations: []
+affinity: {}
+
+pdb:
+  enabled: false
+  maxUnavailable: 1
+
+hpa:
+  enabled: false
+  minReplicas: 2
+  maxReplicas: 10
+  averageUtilization: 90
+
+resources:
+  requests:
+    cpu: 100m
+    memory: 300Mi
+  limits:
+    memory: 1Gi
+
+ingress:
+  enabled: false
+  host: wkhtmltopdf-test.domain.com
+  annotations: {}

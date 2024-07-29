@@ -1,0 +1,29 @@
+project_name: wkhtmltopdf
+release:
+  footer: |
+    ## Docker Images
+    - `paskalmaksim/{{.ProjectName}}:latest`
+    - `paskalmaksim/{{.ProjectName}}:{{ .Tag }}`
+builds:
+- dir: ./cmd/
+  env:
+  - CGO_ENABLED=0
+  flags:
+  - -trimpath
+  ldflags:
+  - -s -w
+  goos:
+  - linux
+  goarch:
+  - amd64
+  - arm64
+checksum:
+  name_template: 'checksums.txt'
+snapshot:
+  name_template: "{{ .Tag }}-next"
+changelog:
+  sort: asc
+  filters:
+    exclude:
+    - '^docs:'
+    - '^test:'

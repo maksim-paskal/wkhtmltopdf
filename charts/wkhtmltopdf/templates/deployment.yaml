@@ -1,0 +1,70 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}
+  labels:
+    app: {{ .Release.Name }}
+spec:
+  selector:
+    matchLabels:
+      app: {{ .Release.Name }}
+  replicas: {{ .Values.replicas }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Release.Name }}
+{{ if .Values.podLabels }}
+{{ toYaml .Values.podLabels | indent 8 }}
+{{ end }}
+{{ if .Values.podAnnotations }}
+      annotations:
+{{ toYaml .Values.podAnnotations | indent 8 }}
+{{ end }}
+    spec:
+{{ if .Values.nodeSelector }}
+      nodeSelector:
+{{ toYaml .Values.nodeSelector | nindent 8 }}
+{{ end }}
+{{ if .Values.tolerations }}
+      tolerations:
+{{ toYaml .Values.tolerations | nindent 6 }}
+{{ end }}
+{{ if .Values.affinity }}
+      affinity:
+{{ toYaml .Values.affinity | indent 7 }}
+{{ end }}
+      securityContext:
+        runAsUser: {{ .Values.runAsUser }}
+        runAsGroup: {{ .Values.runAsUser }}
+        fsGroup: {{ .Values.runAsUser }}
+      volumes:
+      - name: tmp
+        emptyDir: {}
+      containers:
+      - name: wkhtmltopdf
+        resources:
+{{ toYaml .Values.resources | indent 9 }}
+        image: {{ .Values.image }}
+        imagePullPolicy: {{ .Values.imagePullPolicy }}
+        securityContext:
+          allowPrivilegeEscalation: false
+          readOnlyRootFilesystem: true
+          runAsNonRoot: true
+        readinessProbe:
+          httpGet:
+            path: /healthz
+            port: http
+          initialDelaySeconds: 3
+          periodSeconds: 5
+        livenessProbe:
+          httpGet:
+            path: /healthz
+            port: http
+          initialDelaySeconds: 10
+          periodSeconds: 10
+        ports:
+        - name: http
+          containerPort: 8080
+        volumeMounts:
+        - name: tmp
+          mountPath: /tmp
