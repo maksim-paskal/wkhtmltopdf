@@ -1,6 +1,6 @@
 replicas: 1
 
-image: paskalmaksim/wkhtmltopdf:v0.0.1
+image: paskalmaksim/wkhtmltopdf:v0.0.2
 imagePullPolicy: IfNotPresent
 
 runAsUser: 1000
