@@ -2,6 +2,18 @@ apiVersion: v1
 entries:
   wkhtmltopdf:
   - apiVersion: v2
+    created: "2024-07-29T10:23:40.145726044Z"
+    description: web service for converting HTML to PDF using wkhtmltopdf
+    digest: 2b1622522237e0fe3628f423c11693b8eed1df989318d9cea1be579a91d1e223
+    icon: https://helm.sh/img/helm.svg
+    maintainers:
+    - email: paskal.maksim@gmail.com
+      name: maksim-paskal
+    name: wkhtmltopdf
+    urls:
+    - https://github.com/maksim-paskal/wkhtmltopdf/releases/download/wkhtmltopdf-1.0.2/wkhtmltopdf-1.0.2.tgz
+    version: 1.0.2
+  - apiVersion: v2
     created: "2024-07-29T09:14:50.474155182Z"
     description: web service for converting HTML to PDF using wkhtmltopdf
     digest: 15a048436e212ddfcd4cb90e393983699977d775607fb3485fe3ae0e83ff6561
