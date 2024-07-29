@@ -1,18 +1,18 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ .Release.Name }}
+  name: {{ include "wkhtmltopdf.fullname" . }}
   labels:
-    app: {{ .Release.Name }}
+    app: {{ include "wkhtmltopdf.fullname" . }}
 spec:
   selector:
     matchLabels:
-      app: {{ .Release.Name }}
+      app: {{ include "wkhtmltopdf.fullname" . }}
   replicas: {{ .Values.replicas }}
   template:
     metadata:
       labels:
-        app: {{ .Release.Name }}
+        app: {{ include "wkhtmltopdf.fullname" . }}
 {{ if .Values.podLabels }}
 {{ toYaml .Values.podLabels | indent 8 }}
 {{ end }}
