@@ -15,7 +15,7 @@ jobs:
       with:
         fetch-depth: 0
     - name: Remove Git Tags with Charts
-      run: git tag -d $(git tag -l "helm-blue-green-*")
+      run: git tag -d $(git tag -l "wkhtmltopdf-*")
     - name: Set up Go
       uses: actions/setup-go@v5
       with:

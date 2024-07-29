@@ -2,7 +2,7 @@ KUBECONFIG=$(HOME)/.kube/dev
 image=paskalmaksim/wkhtmltopdf:dev
 
 build:
-	git tag -d `git tag -l "helm-chart-*"`
+	git tag -d `git tag -l "wkhtmltopdf-*"`
 	go run github.com/goreleaser/goreleaser@latest build --clean --skip=validate --snapshot
 	mv ./dist/wkhtmltopdf_linux_amd64_v1/wkhtmltopdf wkhtmltopdf
 	docker build --pull --push . -t $(image)
