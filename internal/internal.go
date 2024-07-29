@@ -61,6 +61,11 @@ type Application struct {
 func (a *Application) handler() *http.ServeMux {
 	mux := http.NewServeMux()
 
+	logError := func(w http.ResponseWriter, err error) {
+		slog.Error("Error", "error", err)
+		http.Error(w, "Open logs for details", http.StatusInternalServerError)
+	}
+
 	mux.HandleFunc("/healthz", func(w http.ResponseWriter, _ *http.Request) {
 		w.WriteHeader(http.StatusOK)
 		_, _ = w.Write([]byte("OK"))
@@ -69,7 +74,7 @@ func (a *Application) handler() *http.ServeMux {
 	mux.HandleFunc("/version", func(w http.ResponseWriter, r *http.Request) {
 		output, err := a.exec(r.Context(), a.WkHTMLToPdf, []string{"--version"})
 		if err != nil {
-			http.Error(w, err.Error(), http.StatusInternalServerError)
+			logError(w, err)
 		} else {
 			_, _ = w.Write(output)
 		}
@@ -82,7 +87,7 @@ func (a *Application) handler() *http.ServeMux {
 			Binnary:     a.WkHTMLToImage,
 		})
 		if err != nil {
-			http.Error(w, err.Error(), http.StatusInternalServerError)
+			logError(w, err)
 		} else {
 			w.Header().Set("Content-Type", "image/jpeg")
 			_, _ = w.Write(output)
@@ -96,7 +101,7 @@ func (a *Application) handler() *http.ServeMux {
 			Binnary:     a.WkHTMLToPdf,
 		})
 		if err != nil {
-			http.Error(w, err.Error(), http.StatusInternalServerError)
+			logError(w, err)
 		} else {
 			w.Header().Set("Content-Type", "application/pdf")
 			_, _ = w.Write(output)
