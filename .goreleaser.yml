@@ -20,6 +20,7 @@ dockers:
   image_templates:
   - paskalmaksim/{{.ProjectName}}:{{if .IsSnapshot}}{{.Version}}{{else}}{{.Tag}}{{end}}-amd64
   build_flag_templates:
+  - "--pull"
   - "--platform=linux/amd64"
   - "--label=org.opencontainers.image.created={{.Date}}"
   - "--label=org.opencontainers.image.title={{.ProjectName}}"
@@ -31,7 +32,8 @@ dockers:
   image_templates:
   - paskalmaksim/{{.ProjectName}}:{{if .IsSnapshot}}{{.Version}}{{else}}{{.Tag}}{{end}}-arm64
   build_flag_templates:
-  - "--build-arg=APPVERSION={{.ShortCommit}}"
+  - "--pull"
+  - "--build-arg=BUILDARCH=arm64"
   - "--platform=linux/arm64/v8"
   - "--label=org.opencontainers.image.created={{.Date}}"
   - "--label=org.opencontainers.image.title={{.ProjectName}}"
