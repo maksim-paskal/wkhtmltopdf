@@ -2,23 +2,24 @@ project_name: wkhtmltopdf
 release:
   footer: |
     ## Docker Images
-    - `paskalmaksim/{{.ProjectName}}:latest`
-    - `paskalmaksim/{{.ProjectName}}:{{ .Tag }}`
+    - `paskalmaksim/{{.ProjectName}}:{{ .Tag }}-qt`
+    - `paskalmaksim/{{.ProjectName}}:{{ .Tag }}-webkit`
 docker_manifests:
-- name_template: paskalmaksim/{{.ProjectName}}:latest
+- name_template: paskalmaksim/{{.ProjectName}}:{{.Tag}}-qt
   image_templates:
-  - paskalmaksim/{{.ProjectName}}:{{if .IsSnapshot}}{{.Version}}{{else}}{{.Tag}}{{end}}-amd64
-  - paskalmaksim/{{.ProjectName}}:{{if .IsSnapshot}}{{.Version}}{{else}}{{.Tag}}{{end}}-arm64
-- name_template: paskalmaksim/{{.ProjectName}}:{{if .IsSnapshot}}{{.Version}}{{else}}{{.Tag}}{{end}}
+  - paskalmaksim/{{.ProjectName}}:{{.Tag}}-qt-amd64
+  - paskalmaksim/{{.ProjectName}}:{{.Tag}}-qt-arm64
+- name_template: paskalmaksim/{{.ProjectName}}:{{.Tag}}-webkit
   image_templates:
-  - paskalmaksim/{{.ProjectName}}:{{if .IsSnapshot}}{{.Version}}{{else}}{{.Tag}}{{end}}-amd64
-  - paskalmaksim/{{.ProjectName}}:{{if .IsSnapshot}}{{.Version}}{{else}}{{.Tag}}{{end}}-arm64
+  - paskalmaksim/{{.ProjectName}}:{{.Tag}}-webkit-amd64
+  - paskalmaksim/{{.ProjectName}}:{{.Tag}}-webkit-arm64
 dockers:
 - use: buildx
   goos: linux
   goarch: amd64
+  dockerfile: Dockerfile.qt
   image_templates:
-  - paskalmaksim/{{.ProjectName}}:{{if .IsSnapshot}}{{.Version}}{{else}}{{.Tag}}{{end}}-amd64
+  - paskalmaksim/{{.ProjectName}}:{{.Tag}}-qt-amd64
   build_flag_templates:
   - "--pull"
   - "--platform=linux/amd64"
@@ -29,8 +30,36 @@ dockers:
 - use: buildx
   goos: linux
   goarch: arm64
+  dockerfile: Dockerfile.qt
   image_templates:
-  - paskalmaksim/{{.ProjectName}}:{{if .IsSnapshot}}{{.Version}}{{else}}{{.Tag}}{{end}}-arm64
+  - paskalmaksim/{{.ProjectName}}:{{.Tag}}-qt-arm64
+  build_flag_templates:
+  - "--pull"
+  - "--build-arg=BUILDARCH=arm64"
+  - "--platform=linux/arm64/v8"
+  - "--label=org.opencontainers.image.created={{.Date}}"
+  - "--label=org.opencontainers.image.title={{.ProjectName}}"
+  - "--label=org.opencontainers.image.revision={{.FullCommit}}"
+  - "--label=org.opencontainers.image.version={{.Version}}"
+- use: buildx
+  goos: linux
+  goarch: amd64
+  dockerfile: Dockerfile.webkit
+  image_templates:
+  - paskalmaksim/{{.ProjectName}}:{{.Tag}}-webkit-amd64
+  build_flag_templates:
+  - "--pull"
+  - "--platform=linux/amd64"
+  - "--label=org.opencontainers.image.created={{.Date}}"
+  - "--label=org.opencontainers.image.title={{.ProjectName}}"
+  - "--label=org.opencontainers.image.revision={{.FullCommit}}"
+  - "--label=org.opencontainers.image.version={{.Version}}"
+- use: buildx
+  goos: linux
+  goarch: arm64
+  dockerfile: Dockerfile.webkit
+  image_templates:
+  - paskalmaksim/{{.ProjectName}}:{{.Tag}}-webkit-arm64
   build_flag_templates:
   - "--pull"
   - "--build-arg=BUILDARCH=arm64"
