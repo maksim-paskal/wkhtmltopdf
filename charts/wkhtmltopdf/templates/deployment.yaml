@@ -44,7 +44,7 @@ spec:
       - name: wkhtmltopdf
         resources:
 {{ toYaml .Values.resources | indent 9 }}
-        image: {{ .Values.image }}
+        image: {{ tpl .Values.image . }}
         imagePullPolicy: {{ .Values.imagePullPolicy }}
         securityContext:
           allowPrivilegeEscalation: false

@@ -2,7 +2,9 @@ replicas: 1
 
 fullNameOverwrite: ""
 
-image: paskalmaksim/wkhtmltopdf:v0.0.5
+type: qt
+
+image: paskalmaksim/wkhtmltopdf:v0.0.5-{{ .Values.type }}
 imagePullPolicy: IfNotPresent
 
 runAsUser: 1000
