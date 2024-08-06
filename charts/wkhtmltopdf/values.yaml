@@ -2,7 +2,7 @@ replicas: 1
 
 fullNameOverwrite: ""
 
-image: paskalmaksim/wkhtmltopdf:v0.0.3
+image: paskalmaksim/wkhtmltopdf:v0.0.5
 imagePullPolicy: IfNotPresent
 
 runAsUser: 1000
