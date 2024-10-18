@@ -12,6 +12,7 @@ runAsUser: 1000
 podLabels: {}
 podAnnotations: {}
 
+nodeSelector: {}
 tolerations: []
 affinity: {}
 
