@@ -12,6 +12,7 @@ run:
 
 test-chart:
 	ct lint --all
+	helm template ./charts/wkhtmltopdf | kubectl apply --dry-run=server -f -
 
 test:
 	./scripts/validate-license.sh
